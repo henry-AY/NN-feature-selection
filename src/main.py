@@ -27,16 +27,20 @@ def main():
     if not files_found:
         raise FileNotFoundError("File not found in NN-feature-selection directory or an subdirectories.")
     
-    if len(files_found > 1): # warning just in case
+    if len(files_found) > 1: # warning just in case
         print(f"Multiple matches found, using the first one")
     
     file = files_found[0] # using the first one just in case there are multiple files
 
     data = []
-    with open(file, mode='r', newline='', encoding='utf-8') as reader:
-        csv_reader = csv.DictReader(reader)
-        for row in csv_reader:
-            data.append(row)
+    with open(file, mode='r', encoding='utf-8') as reader:
+        for line in reader:
+            line = line.strip()
+            vals = line.split(" ") # split on spaces
+
+            numeric_vals = [float(val) for val in vals] # convert to floats so we can use .math, and because they're quite small/large this prevents overflow
+            data.append(numeric_vals)
+        
 
     print("Succesfully copied CSV data")
     
