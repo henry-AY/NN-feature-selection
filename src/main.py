@@ -14,10 +14,8 @@ def main():
 
     args = parser.parse_args()
 
-    pattern
-
     if args.simple:
-        pattern = "**/SanityCheck_DataSet_1.txt"
+        pattern = "**/SanityCheck_DataSet__1.txt"
     else:
         data_uncleaned = input("Type the name of the file to test: ").strip()
         pattern = "**/" + data_uncleaned
@@ -33,18 +31,24 @@ def main():
     file = files_found[0] # using the first one just in case there are multiple files
 
     data = []
-    with open(file, mode='r', encoding='utf-8') as reader:
-        for line in reader:
-            line = line.strip()
-            vals = line.split(" ") # split on spaces
+    try:
+        with open(file, mode='r', encoding='utf-8') as reader:
+            for line in reader:
+                line = line.strip()
+                vals = line.split() # split on spaces
 
-            numeric_vals = [float(val) for val in vals] # convert to floats so we can use .math, and because they're quite small/large this prevents overflow
-            data.append(numeric_vals)
-        
+                numeric_vals = [float(val) for val in vals] # convert to floats so we can use .math, and because they're quite small/large this prevents overflow
+                data.append(numeric_vals)
+    except Exception:
+        print(f"Error reading from .txt file: {pattern}")
+
+    # Make sure that the file has at least 1 line
 
     print("Succesfully copied CSV data")
     
-    print(f"Return: {nearest_neighbor(data, {1, 5, 6})}")
+    print("Running Forward Selection: ")
+
+    forward_selection(data, len(data[0]) - 1)
 
 
 
@@ -53,11 +57,32 @@ def main():
 
 
 def forward_selection(data, features):
+    selected_features = []
 
+    for i in range(1, features + 1):
+        accuracy = 0    
+        best_choice = None
 
+        for j in range(1, features + 1):
+            if j in selected_features:
+                continue # skip if the feature is already inside selected features
 
+            test_feature_selection = selected_features + [j]
 
-    pass
+            curr_accuracy = nearest_neighbor(data, test_feature_selection)
+
+            print(f"Using feature(s): {test_feature_selection} accuracy is {curr_accuracy}%")
+
+            if curr_accuracy > accuracy:
+                accuracy = curr_accuracy
+                best_choice = j
+        
+        if best_choice is not None:
+            selected_features.append(best_choice)
+        else:
+            print("ERROR appending best feature choice in forward_selection()")
+
+        print(f"Feature set: {selected_features} performed the best with an accuracy of {accuracy}%")
 
 
 def backward_elimination(data, features):
