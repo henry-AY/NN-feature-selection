@@ -171,32 +171,45 @@ def compute_distance(i, j, features):
     return math.sqrt(distance_sum)
 
 
+def is_negative_growth(history, accuracy, passing_iterations = 35):
+    if not history:
+        return False # Default to false just in case
+    
+    if len(history) < passing_iterations:
+        return False
+    
+    for val in history[-passing_iterations: ]:
+        if val >= accuracy:
+            return False
+        
+    return True
+
 """
 is_negative_growth(...) function determines if there exists negative growth, and there exists a function history.
 This is to prevent false positives and early exists. This function allows us to exit early, as generally, the more features added
 the lower the accuracy is. If there exists a negative trend for 5 or more instances of history, we are highly confident 
 we found the highest accuracy.
 """
-def is_negative_growth(history, known_peak):
-    if not history:
-        return False # Default to false just in case
+# def is_negative_growth(history, known_peak):
+#     if not history:
+#         return False # Default to false just in case
     
-    known_peak_index = history.index(known_peak)
+#     known_peak_index = history.index(known_peak)
 
-    prev = history[known_peak_index]
+#     prev = history[known_peak_index]
 
-    # this exists to prevent false positives, there must be a minimum of 5 pieces of data after the known_peak_index
-    if len(history) - known_peak_index < 5:
-        return False
+#     # this exists to prevent false positives, there must be a minimum of 5 pieces of data after the known_peak_index
+#     if len(history) - known_peak_index < 5:
+#         return False
 
-    for i in range(known_peak_index + 1, len(history)):
-        curr = history[i]
+#     for i in range(known_peak_index + 1, len(history)):
+#         curr = history[i]
 
-        if curr >= prev:
-            return False
-        prev = curr
+#         if curr >= prev:
+#             return False
+#         prev = curr
 
-    return True
+#     return True
 
 def run(header, data, function, csv):
     print(f"Running {header}\n")
