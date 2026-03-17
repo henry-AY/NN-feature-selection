@@ -21,7 +21,7 @@ def forward_selection(data, features, csv_filepath):
 
     with open(csv_filepath, "w", newline = "") as f:
         writer = csv.writer(f)
-        writer.writerow(["Iteration", "Features", "NumberFeatures" "Accuracy"])
+        writer.writerow(["Iteration", "Features", "NumberFeatures", "Accuracy"])
 
         for i in range(1, features + 1):
             accuracy = 0    
@@ -81,7 +81,7 @@ def backward_elimination(data, features, csv_filepath):
 
     with open(csv_filepath, "w", newline = "") as f:
         writer = csv.writer(f)
-        writer.writerow(["Iteration", "Features", "NumberFeatures" "Accuracy"])
+        writer.writerow(["Iteration", "Features", "NumberFeatures", "Accuracy"])
 
         for i in range(1, features + 1):
             accuracy = 0 
