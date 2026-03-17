@@ -1,4 +1,4 @@
-Iteration,Features,NumberFeaturesAccuracy
+Iteration,Features,NumberFeatures,Accuracy
 1,[7],1,0.858
 2,"[7, 12]",2,0.98
 3,"[7, 12, 10]",3,0.95

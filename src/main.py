@@ -201,7 +201,7 @@ A simple runner function to make the process more modular.
 def run(header, data, function, csv):
     print(f"Running {header}\n")
 
-    accuracy, features = function(data, len(data[0]) - 1, f"{csv}_{header}.csv")
+    accuracy, features = function(data, len(data[0]) - 1, f"results/{csv}_{header}.csv")
 
     output = f"{header} found the following best combination:\nFeatures: {features} with an accuracy of: {accuracy}\n"
     print(output)
